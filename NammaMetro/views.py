@@ -126,16 +126,19 @@ stationsList = ["Attiguppe", "Baiyappanahalli", "Banashankari", "Central College
 
 
 def calculate_fare(request):
-    if request == 'POST':
-        origin_station_name = request.POST.get('origin_station')
-        destination_station_name = request.POST.get('destination_station')
+    if request.method == 'POST':
+        # Handle the POST request and calculate fare
+        # Example logic:
+        origin_station = request.POST.get('origin_station')
+        destination_station = request.POST.get('destination_station')
+        print(origin_station,destination_station)
+        # Your fare calculation logic here
+        #fare_amount = calculate_fare_between_station(origin_station, destination_station)
+        fare_amount = 100
 
-        fare_amount = calculate_fare_between_station(origin=origin_station_name,destination=destination_station_name)
-
-        fare_text = f"Fare between {origin_station_name} and {destination_station_name} is {fare_amount}"
-        
-        return JsonResponse({'fare_text':fare_text})
-    
-    return render(request,'NammaMetro/fare_input.html',{"stations":stationsList})
+        return JsonResponse({'fare_amount': fare_amount})
+    else:
+        # Pass stationsList to the template
+        return render(request, 'NammaMetro/fare_input.html', {"stationsList": stationsList})
 
         
