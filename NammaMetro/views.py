@@ -133,8 +133,9 @@ def calculate_fare(request):
         destination_station = request.POST.get('destination_station')
         print(origin_station,destination_station)
         # Your fare calculation logic here
-        #fare_amount = calculate_fare_between_station(origin_station, destination_station)
-        fare_amount = 100
+        fare_amount = calculate_fare_between_station(origin_station, destination_station)
+        #fare_amount = 100
+        print(origin_station,destination_station,fare_amount)
 
         return JsonResponse({'fare_amount': fare_amount})
     else:

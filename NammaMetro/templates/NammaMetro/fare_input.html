@@ -12,14 +12,14 @@
     <label for="origin_station">Origin Station:</label>
     <select name="origin_station" id="origin_station">
         {% for station in stationsList %}
-            <option value="{{ forloop.counter0 }}">{{ station }}</option>
+            <option value="{{ station }}">{{ station }}</option>
         {% endfor %}
     </select>
     <br>
     <label for="destination_station">Destination Station:</label>
     <select name="destination_station" id="destination_station">
         {% for station in stationsList %}
-            <option value="{{ forloop.counter0 }}">{{ station }}</option>
+            <option value="{{ station }}">{{ station }}</option>
         {% endfor %}
     </select>
     <br>
@@ -41,13 +41,18 @@ document.getElementById("fare_form").addEventListener("submit", function(event) 
     })
     .then(response => response.json())
     .then(data => {
-        document.getElementById("fare_result").innerHTML = data.fare_text;
-        document.getElementById("station_list").innerHTML = data.stationsList.join(", ");
+        // Check if 'fare_amount' key exists in the JSON response
+        if (data.hasOwnProperty('fare_amount')) {
+            document.getElementById("fare_result").innerHTML = "Fare: " + data.fare_amount;
+        } else {
+            console.error('Key "fare_amount" not found in JSON response.');
+        }
+    })
+    .catch(error => {
+        console.error('Error fetching JSON:', error);
     });
 });
 </script>
-
-<!--<p id="station_list">Stations: {{ stationsList|join:", " }}</p>-->
 
 </body>
 </html>
