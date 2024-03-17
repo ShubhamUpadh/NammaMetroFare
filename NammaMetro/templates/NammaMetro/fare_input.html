@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fare Calculator</title>
+</head>
+<body>
+
+<form id="fare_form" action="{% url 'calculate_fare' %}" method="post">
+    {% csrf_token %}
+    <label for="origin_station">Origin Station:</label>
+    <select name="origin_station" id="origin_station">
+        {% for station in stationsList %}
+            <option value="{{ forloop.counter0 }}">{{ station }}</option>
+        {% endfor %}
+    </select>
+    <br>
+    <label for="destination_station">Destination Station:</label>
+    <select name="destination_station" id="destination_station">
+        {% for station in stationsList %}
+            <option value="{{ forloop.counter0 }}">{{ station }}</option>
+        {% endfor %}
+    </select>
+    <br>
+    <button type="submit">Calculate Fare</button>
+</form>
+
+<div id="fare_result"></div>
+
+<script>
+document.getElementById("fare_form").addEventListener("submit", function(event) {
+    event.preventDefault(); // Prevent form submission
+    var formData = new FormData(this);
+    fetch("{% url 'calculate_fare' %}", {
+        method: 'POST',
+        body: formData,
+        headers: {
+            'X-CSRFToken': '{{ csrf_token }}'
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        document.getElementById("fare_result").innerHTML = data.fare_text;
+        document.getElementById("station_list").innerHTML = data.stationsList.join(", ");
+    });
+});
+</script>
+
+<p id="station_list">Stations: {{ stationsList|join:", " }}</p>
+
+</body>
+</html>

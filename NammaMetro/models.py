@@ -8,5 +8,5 @@ class Station(models.Model):
 
 class Fare(models.Model):
     origin = models.ForeignKey(Station, on_delete=models.CASCADE, related_name='origin_fares')
-    destination = models.ForeignKey(Station, on_delete=models.CASCADE, related_name='origin_fares')
-    fare_amount = models.DecimalField(max_length=10, decimal_places=2)
+    destination = models.ForeignKey(Station, on_delete=models.CASCADE, related_name='destination_fares')
+    fare_amount = models.DecimalField(max_digits=10, decimal_places=2)
