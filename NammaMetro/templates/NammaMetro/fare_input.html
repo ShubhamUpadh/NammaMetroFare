@@ -6,45 +6,59 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Fare Calculator</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+
     <style>
         body {
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
             height: 90vh;
             background-color: lightblue;
             color: black;
             text-align: center;
             font-size: 20px;
-            border: 2px solid black;
-            padding: 20px;
+        }
+        .column {
+            flex: 1;
+            padding: 10px;
+        }
+        #fare_result {
+            font-size: 30px;
+            height: 60px; /* Fixed height for the result area */
+            overflow: auto; /* Enable scrollbars if content exceeds height */
         }
     </style>
 </head>
 <body>
 
-    <!--img src="NammaMetro_map_.jpg" alt="NammaMetro Map"-->
-    <br>
-    <br>
-
-    <form id="fare_form" action="{% url 'calculate_fare' %}" method="post">
-        {% csrf_token %}
-        <label for="origin_station">Origin Station:</label><br>
-        <select name="origin_station" id="origin_station">
-            {% for station in stationsList %}
-                <option value="{{ station }}">{{ station }}</option>
-            {% endfor %}
-        </select>
+    <div class="column">
+        <h1>Namma Metro Fare Calculator</h1>
+    </div>
+    <div class="column">
+        <form id="fare_form" action="{% url 'calculate_fare' %}" method="post">
+            {% csrf_token %}
+            <h3><label for="origin_station">Origin Station:</label></h3>
+            <select name="origin_station" id="origin_station">
+                {% for station in stationsList %}
+                    <option value="{{ station }}">{{ station }}</option>
+                {% endfor %}
+            </select>
+            <br>
+            <br>
+            <h3><label for="destination_station">Destination Station:</label></h3>
+            <select name="destination_station" id="destination_station">
+                {% for station in stationsList %}
+                    <option value="{{ station }}">{{ station }}</option>
+                {% endfor %}
+            </select>
+            <br><br>
+            <button type="submit">Calculate Fare</button>
+        </form>
         <br>
-        <br>
-        <label for="destination_station">Destination Station:</label><br>
-        <select name="destination_station" id="destination_station">
-            {% for station in stationsList %}
-                <option value="{{ station }}">{{ station }}</option>
-            {% endfor %}
-        </select>
-        <br><br>
-        <button type="submit">Calculate Fare</button>
-    </form>
-    <br>
-    <div id="fare_result"></div>
+        <div id="fare_result"></div>
+    </div>
 
     <script>
     document.getElementById("fare_form").addEventListener("submit", function(event) {
