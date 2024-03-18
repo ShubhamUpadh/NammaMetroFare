@@ -119,11 +119,14 @@ USE_TZ = True
 
 # Define the base URL for static files
 STATIC_URL = '/static/'
-
+'''
 # Specify the directories where Django will look for static files
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static'),  # Path to your static files directory
-]
+]'''
+
+# Define the directory where Django will collect static files
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')  # Path to your staticfiles directory
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
