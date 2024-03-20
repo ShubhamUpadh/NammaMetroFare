@@ -3,10 +3,11 @@ from django.http import JsonResponse
 from .models import Station,Fare
 
 pathLength = 0
-shortPath = []
+shortPath = [None]
 
 def calculate_fare_between_station(origin,destination):
-
+    global shortPath
+    shortPath = []
     class Graph:
         def __init__(self, edges):
             self.edges = edges
@@ -89,6 +90,7 @@ def calculate_fare_between_station(origin,destination):
             return stationsTravelled[numstations]
     
     if origin == destination:
+        shortPath = [[[origin,origin]]]
         return 10
 
     
@@ -113,6 +115,7 @@ def calculate_fare_between_station(origin,destination):
     metroRoute = Graph(routes)
     numberOfStations = metroRoute.bfsPath(origin,destination)
     fare = metroRoute.fareCalc(numberOfStations)
+    print(shortPath)
     return fare
 
 stationsList = ["Attiguppe", "Baiyappanahalli", "Banashankari", "Central College", "Chikpet", "Cubbon Park", "Dasarahalli", 
@@ -137,7 +140,9 @@ def calculate_fare(request):
         #fare_amount = 100
         print(origin_station,destination_station,fare_amount)
 
-        return JsonResponse({'fare_amount': fare_amount})
+
+        #return JsonResponse({'fare_amount': fare_amount,'short_path':shortPath[0][0]})
+        return JsonResponse({'fare_amount':fare_amount})
     else:
         # Pass stationsList to the template
         return render(request, 'NammaMetro/fare_input.html', {"stationsList": stationsList})

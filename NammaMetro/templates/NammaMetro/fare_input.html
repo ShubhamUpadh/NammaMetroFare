@@ -58,6 +58,7 @@
         </form>
         <br>
         <div id="fare_result"></div>
+        <div id="short_Path"></div>
     </div>
 
     <script>
@@ -76,6 +77,12 @@
             // Check if 'fare_amount' key exists in the JSON response
             if (data.hasOwnProperty('fare_amount')) {
                 document.getElementById("fare_result").innerHTML = "Fare: " + data.fare_amount;
+            } else {
+                console.error('Key "fare_amount" not found in JSON response.');
+            }
+            
+            if (data.hasOwnProperty('short_path')) {
+                document.getElementById("short_Path").innerHTML = "Path: " + data.short_path;
             } else {
                 console.error('Key "fare_amount" not found in JSON response.');
             }
